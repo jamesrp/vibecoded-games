@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Studio Arcade</title>
+<style>
+  :root { --ink:#e8e4ff; --muted:#a9a6c9; --dim:#6f6b92; --card:#1a1730; }
+  * { box-sizing: border-box; }
+  html { background: #0d0b1a; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: radial-gradient(ellipse at top, #2a2450, #0d0b1a 70%) no-repeat #0d0b1a;
+  }
+  header { text-align: center; padding: 56px 20px 12px; }
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5.5vw, 3.4rem);
+    letter-spacing: .18em;
+    background: linear-gradient(90deg, #ffd36e, #ff7ab6, #7ad7ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  header p { color: var(--muted); margin: 12px auto 0; max-width: 36rem; line-height: 1.5; }
+  main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 32px 20px 24px;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    background: var(--card);
+    border: 1px solid #ffffff14;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform .18s, box-shadow .18s, border-color .18s;
+  }
+  .card:hover, .card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--acc);
+    box-shadow: 0 12px 32px #0008, 0 0 0 1px var(--acc);
+    outline: none;
+  }
+  .hero {
+    aspect-ratio: 16 / 10;
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+    position: relative;
+    isolation: isolate;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--hero);
+    z-index: -1;
+  }
+  .hero span {
+    font: 700 .72rem/1 ui-monospace, monospace;
+    letter-spacing: .12em;
+    color: #0d0b1a;
+    background: var(--acc);
+    padding: 3px 8px;
+    border-radius: 99px;
+  }
+  .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  h2 { margin: 0; font-size: 1.12rem; letter-spacing: .08em; color: var(--acc); }
+  .ver { font: 600 .75rem ui-monospace, monospace; color: #cfcbe8; background: #ffffff12; padding: 2px 8px; border-radius: 99px; }
+  p { margin: 0; color: #c3bfdc; line-height: 1.45; flex: 1; }
+  .play {
+    align-self: flex-start;
+    margin-top: 6px;
+    font-weight: 700;
+    font-size: .9rem;
+    color: #0d0b1a;
+    background: var(--acc);
+    padding: 6px 14px;
+    border-radius: 99px;
+  }
+  footer { text-align: center; color: var(--dim); font-size: .85rem; padding: 8px 16px 48px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>STUDIO ARCADE</h1>
+  <p>Three browser games from the studio. No install, no account — just open and play.</p>
+</header>
+<main>
+  <a class="card" href="grazefire/" style="--acc:#b49cff; --hero:linear-gradient(165deg,#12081f,#2a1060 55%,#061018);">
+    <div class="hero"><span>SHMUP</span></div>
+    <div class="body">
+      <div class="row"><h2>GRAZEFIRE</h2><span class="ver">v0.17.0</span></div>
+      <p>A neon vertical shmup where danger is currency. Graze the bullets, pick a world, and fight through five stages to the finale.</p>
+      <span class="play">Play</span>
+    </div>
+  </a>
+  <a class="card" href="hollow-crown/" style="--acc:#e0b25c; --hero:linear-gradient(165deg,#1c140c,#3a2a14 50%,#120c08);">
+    <div class="hero"><span>AUTO-BATTLER</span></div>
+    <div class="body">
+      <div class="row"><h2>HOLLOW CROWN</h2><span class="ver">v0.5.2</span></div>
+      <p>A storybook auto-battler. Recruit, merge, and march a tribe through a branching campaign — plus a weekly Omen that twists the rules.</p>
+      <span class="play">Play</span>
+    </div>
+  </a>
+  <a class="card" href="brightfield/" style="--acc:#7bd88f; --hero:linear-gradient(165deg,#8ec8dc,#cfe7f2 45%,#d7eeb8);">
+    <div class="hero"><span>CITY BUILDER</span></div>
+    <div class="body">
+      <div class="row"><h2>BRIGHTFIELD</h2><span class="ver">v0.6.2</span></div>
+      <p>Grow a cozy town from coal and smog to a bright, green future. Built for kids and grown-ups who like hopeful cities.</p>
+      <span class="play">Play</span>
+    </div>
+  </a>
+</main>
+<footer>Works on a phone, tablet, or desktop. Use the browser Back button to return here.</footer>
+</body>
+</html>
