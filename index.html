@@ -15,7 +15,7 @@
     color: var(--ink);
     background: radial-gradient(ellipse at top, #2a2450, #0d0b1a 70%) no-repeat #0d0b1a;
   }
-  header { text-align: center; padding: 56px 20px 12px; }
+  header { text-align: center; padding: 56px 20px 8px; }
   h1 {
     margin: 0;
     font-size: clamp(2rem, 5.5vw, 3.4rem);
@@ -25,14 +25,29 @@
     background-clip: text;
     color: transparent;
   }
-  header p { color: var(--muted); margin: 12px auto 0; max-width: 36rem; line-height: 1.5; }
-  main {
+  .byline {
+    color: var(--ink);
+    margin: 16px auto 0;
+    max-width: 40rem;
+    line-height: 1.55;
+    font-size: 1.05rem;
+  }
+  header .sub { color: var(--muted); margin: 10px auto 0; max-width: 38rem; line-height: 1.5; }
+  main { max-width: 1100px; margin: 0 auto; padding: 12px 20px 24px; }
+  section { margin: 28px 0 8px; }
+  section h2 {
+    margin: 0 0 4px;
+    font-size: 0.82rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  section .lead { margin: 0 0 16px; color: var(--dim); font-size: .92rem; line-height: 1.45; }
+  .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 32px 20px 24px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
   }
   .card {
     display: flex;
@@ -51,13 +66,16 @@
     box-shadow: 0 12px 32px #0008, 0 0 0 1px var(--acc);
     outline: none;
   }
+  .shelved .card { opacity: .92; }
   .hero {
     aspect-ratio: 16 / 10;
     display: flex;
     align-items: flex-end;
+    justify-content: space-between;
     padding: 18px;
     position: relative;
     isolation: isolate;
+    gap: 8px;
   }
   .hero::before {
     content: "";
@@ -66,18 +84,18 @@
     background: var(--hero);
     z-index: -1;
   }
-  .hero span {
+  .hero span, .status {
     font: 700 .72rem/1 ui-monospace, monospace;
-    letter-spacing: .12em;
-    color: #0d0b1a;
-    background: var(--acc);
+    letter-spacing: .1em;
     padding: 3px 8px;
     border-radius: 99px;
   }
+  .hero span { color: #0d0b1a; background: var(--acc); }
+  .status { color: var(--ink); background: #0006; border: 1px solid #ffffff22; }
   .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-  h2 { margin: 0; font-size: 1.12rem; letter-spacing: .08em; color: var(--acc); }
-  .ver { font: 600 .75rem ui-monospace, monospace; color: #cfcbe8; background: #ffffff12; padding: 2px 8px; border-radius: 99px; }
+  h3 { margin: 0; font-size: 1.08rem; letter-spacing: .08em; color: var(--acc); font-weight: 700; }
+  .ver { font: 600 .75rem ui-monospace, monospace; color: #cfcbe8; background: #ffffff12; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
   p { margin: 0; color: #c3bfdc; line-height: 1.45; flex: 1; }
   .play {
     align-self: flex-start;
@@ -89,39 +107,134 @@
     padding: 6px 14px;
     border-radius: 99px;
   }
-  footer { text-align: center; color: var(--dim); font-size: .85rem; padding: 8px 16px 48px; }
+  footer { text-align: center; color: var(--dim); font-size: .85rem; padding: 16px 16px 48px; }
 </style>
 </head>
 <body>
 <header>
   <h1>STUDIO ARCADE</h1>
-  <p>Three browser games from the studio. No install, no account — just open and play.</p>
+  <p class="byline">These games were designed and built autonomously by an AI game studio bot for James and his kids.</p>
+  <p class="sub">No install, no account — just open and play. Some are ready to share, some are waiting on a playtest, and a few were shelved on purpose.</p>
 </header>
 <main>
-  <a class="card" href="grazefire/" style="--acc:#b49cff; --hero:linear-gradient(165deg,#12081f,#2a1060 55%,#061018);">
-    <div class="hero"><span>SHMUP</span></div>
-    <div class="body">
-      <div class="row"><h2>GRAZEFIRE</h2><span class="ver">v0.17.0</span></div>
-      <p>A neon vertical shmup where danger is currency. Graze the bullets, pick a world, and fight through five stages to the finale.</p>
-      <span class="play">Play</span>
-    </div>
-  </a>
-  <a class="card" href="hollow-crown/" style="--acc:#e0b25c; --hero:linear-gradient(165deg,#1c140c,#3a2a14 50%,#120c08);">
-    <div class="hero"><span>AUTO-BATTLER</span></div>
-    <div class="body">
-      <div class="row"><h2>HOLLOW CROWN</h2><span class="ver">v0.5.2</span></div>
-      <p>A storybook auto-battler. Recruit, merge, and march a tribe through a branching campaign — plus a weekly Omen that twists the rules.</p>
-      <span class="play">Play</span>
-    </div>
-  </a>
-  <a class="card" href="brightfield/" style="--acc:#7bd88f; --hero:linear-gradient(165deg,#8ec8dc,#cfe7f2 45%,#d7eeb8);">
-    <div class="hero"><span>CITY BUILDER</span></div>
-    <div class="body">
-      <div class="row"><h2>BRIGHTFIELD</h2><span class="ver">v0.6.2</span></div>
-      <p>Grow a cozy town from coal and smog to a bright, green future. Built for kids and grown-ups who like hopeful cities.</p>
-      <span class="play">Play</span>
-    </div>
-  </a>
+
+<section>
+  <h2>Released or playable</h2>
+  <p class="lead">The ones we’d hand you first. Cartographer has already been playtested; Brightfield Radio is a generative music toy in the same family as Brightfield’s victory music.</p>
+  <div class="grid">
+    <a class="card" href="grazefire/" style="--acc:#b49cff; --hero:linear-gradient(165deg,#12081f,#2a1060 55%,#061018);">
+      <div class="hero"><span>SHMUP</span><span class="status">Playable</span></div>
+      <div class="body">
+        <div class="row"><h3>GRAZEFIRE</h3><span class="ver">v0.17.0</span></div>
+        <p>A neon vertical shmup where danger is currency. Graze the bullets, pick a world, and fight through five stages to the finale.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+    <a class="card" href="hollow-crown/" style="--acc:#e0b25c; --hero:linear-gradient(165deg,#1c140c,#3a2a14 50%,#120c08);">
+      <div class="hero"><span>AUTO-BATTLER</span><span class="status">Playable</span></div>
+      <div class="body">
+        <div class="row"><h3>HOLLOW CROWN</h3><span class="ver">v0.5.2</span></div>
+        <p>A storybook auto-battler. Recruit, merge, and march a tribe through a branching campaign — plus a weekly Omen that twists the rules.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+    <a class="card" href="brightfield/" style="--acc:#7bd88f; --hero:linear-gradient(165deg,#8ec8dc,#cfe7f2 45%,#d7eeb8);">
+      <div class="hero"><span>CITY BUILDER</span><span class="status">Playable</span></div>
+      <div class="body">
+        <div class="row"><h3>BRIGHTFIELD</h3><span class="ver">v0.6.2</span></div>
+        <p>Grow a cozy town from coal and smog to a bright, green future. Built for kids and grown-ups who like hopeful cities.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+    <a class="card" href="cartographer/" style="--acc:#d9b77a; --hero:linear-gradient(165deg,#2a1c12,#5a3d24 50%,#1a120c);">
+      <div class="hero"><span>DEDUCTION</span><span class="status">Playable</span></div>
+      <div class="body">
+        <div class="row"><h3>CARTOGRAPHER</h3><span class="ver">v0.5.0</span></div>
+        <p>Paint a parchment map until every explorer clue fits. 35 solver-verified islands with a teaching ladder. Picture-first cards for younger readers are still on the list.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+    <a class="card" href="brightfield-radio/" style="--acc:#7ad7c8; --hero:linear-gradient(165deg,#1a3a44,#7ec8d8 45%,#c5e8c0);">
+      <div class="hero"><span>MUSIC TOY</span><span class="status">Playable</span></div>
+      <div class="body">
+        <div class="row"><h3>BRIGHTFIELD RADIO</h3><span class="ver">v0.2.0</span></div>
+        <p>A bonus generative radio: Classic stations in the vein of Brightfield’s victory loop, plus a glossy Frutiger Aero set. Still waiting on a listen pass.</p>
+        <span class="play">Listen</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>Work in progress</h2>
+  <p class="lead">Playable builds parked at a review point. They work, but we’re waiting on playtest notes before the next pass.</p>
+  <div class="grid">
+    <a class="card" href="tidebound/" style="--acc:#5fb7e0; --hero:linear-gradient(165deg,#042030,#0a4a5c 50%,#083042);">
+      <div class="hero"><span>PUZZLE</span><span class="status">Waiting on review</span></div>
+      <div class="body">
+        <div class="row"><h3>TIDEBOUND</h3><span class="ver">v0.4</span></div>
+        <p>Sokoban with tides: crates float and drift at high water, and paths appear at low. 46 solver-verified levels, including a kids’ Tidepool track.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+    <a class="card" href="moldworks/" style="--acc:#d6d94a; --hero:linear-gradient(165deg,#06100c,#1a3a22 50%,#0a1810);">
+      <div class="hero"><span>PUZZLE</span><span class="status">Waiting on review</span></div>
+      <div class="body">
+        <div class="row"><h3>MOLDWORKS</h3><span class="ver">v0.3.1</span></div>
+        <p>Grow a slime-mold transit network between food, in the spirit of the Physarum Tokyo-rail experiment. Pretty and playable; the tester stopped short of high confidence.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+    <a class="card" href="clockwork-heist/" style="--acc:#c9a227; --hero:linear-gradient(165deg,#171412,#3a2a18 50%,#120e0a);">
+      <div class="hero"><span>CAPER</span><span class="status">Waiting on review</span></div>
+      <div class="body">
+        <div class="row"><h3>CLOCKWORK HEIST</h3><span class="ver">v0.4</span></div>
+        <p>A 1960s caper: plan a 2–4 person crew on a shared timeline, then press GO and watch it unfold. 15 jobs, rewind and tweak. Tester confidence is medium.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+    <a class="card" href="ghost-choir/" style="--acc:#9fd8ff; --hero:linear-gradient(165deg,#0d0b22,#1a1640 50%,#24183a);">
+      <div class="hero"><span>MUSIC PUZZLE</span><span class="status">Waiting on review</span></div>
+      <div class="body">
+        <div class="row"><h3>GHOST CHOIR</h3><span class="ver">v0.3.1</span></div>
+        <p>Guide candlelight through a chapel of shy ghosts so they sing the organ’s tune. 24 levels across three chapters, plus a free-compose sandbox. Waiting for a listen.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="shelved">
+  <h2>Shelved</h2>
+  <p class="lead">Set aside on purpose after a slate review. The last builds are still here to play, as a record of what the studio tried.</p>
+  <div class="grid">
+    <a class="card" href="pocket-empire/" style="--acc:#e07a5f; --hero:linear-gradient(165deg,#0d1218,#2a2018 50%,#1a1410);">
+      <div class="hero"><span>4X</span><span class="status">Shelved Oct 30</span></div>
+      <div class="body">
+        <div class="row"><h3>POCKET EMPIRE</h3><span class="ver">v0.3.2</span></div>
+        <p>A 40-turn roguelike civ on a tiny hex map, with rival rulers, a founding charter, and a beginner coach. Shelved because the depth didn’t quite land.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+    <a class="card" href="waggle/" style="--acc:#f2c14e; --hero:linear-gradient(165deg,#2b1a08,#5a3a12 50%,#1a1008);">
+      <div class="hero"><span>BEE SIM</span><span class="status">Shelved Nov 4</span></div>
+      <div class="body">
+        <div class="row"><h3>WAGGLE</h3><span class="ver">v0.3</span></div>
+        <p>Scout flowers, then dance the real waggle dance so the hive can find them. A genuinely novel mechanic that didn’t grow into enough depth.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+    <a class="card" href="orbit-garden/" style="--acc:#b08cf0; --hero:linear-gradient(165deg,#0b0a26,#241848 50%,#0c0820);">
+      <div class="hero"><span>SLINGSHOT</span><span class="status">Shelved Nov 4</span></div>
+      <div class="body">
+        <div class="row"><h3>ORBIT GARDEN</h3><span class="ver">v0.3</span></div>
+        <p>Sling seed pods between tiny planets and let gravity bend the path. Charming and polished, but precision aiming wasn’t the right skill for a 5-year-old.</p>
+        <span class="play">Play</span>
+      </div>
+    </a>
+  </div>
+</section>
+
 </main>
 <footer>Works on a phone, tablet, or desktop. Use the browser Back button to return here.</footer>
 </body>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Brightfield Radio">
+<title>BRIGHTFIELD RADIO</title>
+<style>
+  :root {
+    --ink: #f4efe3;
+    --muted: #d7d0c2;
+    --panel: rgba(16, 22, 20, 0.62);
+    --line: rgba(255,255,255,0.14);
+    --gold: #e6c35c;
+    --sage: #8fbf7a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #142018; color: var(--ink);
+    font-family: Georgia, "Times New Roman", ui-serif, serif;
+    user-select: none; -webkit-user-select: none; overflow: hidden; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #ui { position: fixed; inset: 0; display: flex; flex-direction: column; pointer-events: none;
+    padding: calc(18px + env(safe-area-inset-top)) 20px calc(16px + env(safe-area-inset-bottom)); }
+  header { text-align: center; text-shadow: 0 1px 1px rgba(0,0,0,0.28), 0 6px 22px rgba(0,0,0,0.38); }
+  .eyebrow { font-family: system-ui, sans-serif; letter-spacing: 0.22em; font-size: 11px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  h1 { margin: 0; font-weight: 600; letter-spacing: 0.16em; font-size: clamp(1.4rem, 4vw, 2.2rem); }
+  #now { margin-top: 8px; font-style: italic; color: var(--ink); font-size: 1.05rem; }
+  #hint { font-family: system-ui, sans-serif; font-size: 13px; color: var(--ink); opacity: 0.88; margin-top: 6px; }
+  #dock { margin-top: auto; pointer-events: auto; background: var(--panel);
+    border: 1px solid var(--line); border-radius: 22px; padding: 16px 16px 14px;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.28); max-width: 760px; width: 100%; margin-left: auto; margin-right: auto; }
+  .toprow { display: flex; gap: 14px; align-items: center; }
+  #play { flex: 0 0 auto; width: 84px; height: 84px; border-radius: 50%; border: 0;
+    background: var(--gold); color: #2a2414; font-size: 32px; cursor: pointer;
+    box-shadow: 0 8px 24px rgba(230,195,92,0.35); display: grid; place-items: center;
+    -webkit-tap-highlight-color: transparent; }
+  #play:active { transform: scale(0.97); }
+  #play[aria-pressed="true"] { background: #f3df9a; }
+  .tracks { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
+  .track { font-family: system-ui, sans-serif; border: 1px solid var(--line); background: rgba(255,255,255,0.06);
+    color: var(--ink); border-radius: 999px; padding: 10px 14px; cursor: pointer; font-size: 13px;
+    -webkit-tap-highlight-color: transparent; }
+  .track[aria-selected="true"] { background: var(--acc, var(--gold)); color: #1b1810; border-color: transparent; font-weight: 650; }
+  .track small { display: none; }
+  #variant { display: none; gap: 8px; margin-top: 10px; }
+  #variant.show { display: flex; }
+  #variant button { font-family: system-ui, sans-serif; border: 1px solid var(--line); background: rgba(255,255,255,0.06);
+    color: var(--ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+  #variant button[aria-selected="true"] { background: #f3df9a; color: #1b1810; }
+  .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-top: 12px;
+    font-family: system-ui, sans-serif; font-size: 13px; color: var(--muted); }
+  .row label { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; }
+  input[type=range] { width: 100%; accent-color: var(--gold); }
+  .sleep { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .sleep button { border: 1px solid var(--line); background: rgba(255,255,255,0.06); color: var(--ink);
+    border-radius: 999px; padding: 8px 11px; cursor: pointer; font: inherit; }
+  .sleep button[aria-selected="true"] { background: var(--sage); color: #122016; }
+  #sleepleft { min-height: 1em; }
+
+  .groups { display: flex; gap: 8px; margin-bottom: 12px; }
+  .groups button { font-family: system-ui, sans-serif; border: 1px solid var(--line); background: rgba(255,255,255,0.06);
+    color: var(--ink); border-radius: 999px; padding: 8px 16px; cursor: pointer; letter-spacing: 0.06em; }
+  .groups button[aria-selected="true"] { background: var(--gold); color: #1b1810; font-weight: 650; }
+  body.aero {
+    --ink: #04314a;
+    --muted: #1a5c76;
+    --gold: #7fe3ff;
+    --sage: #9be06a;
+    color: #04314a;
+    font-family: "Segoe UI", Tahoma, system-ui, sans-serif;
+  }
+  body.aero header { color: #fff; text-shadow: 0 1px 2px rgba(10,50,80,0.35), 0 6px 24px rgba(20,90,140,0.45), 0 0 18px rgba(255,255,255,0.35); }
+  body.aero .eyebrow { color: rgba(255,255,255,0.86); letter-spacing: 0.28em; }
+  body.aero #now, body.aero #hint { color: #fff; opacity: 0.95; }
+  body.aero #dock {
+    background: linear-gradient(180deg, rgba(255,255,255,0.62) 0%, rgba(186,232,255,0.42) 48%, rgba(154,220,245,0.48) 100%);
+    border: 1px solid rgba(255,255,255,0.85);
+    box-shadow: 0 18px 44px rgba(40,130,180,0.28), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -10px 18px rgba(80,170,210,0.12);
+  }
+  body.aero #play {
+    background: radial-gradient(circle at 32% 28%, #f4ffff, #7fe3ff 42%, #1eb4d2 78%);
+    color: #033848;
+    box-shadow: 0 8px 26px rgba(70,210,240,0.5), inset 0 -8px 14px rgba(0,90,110,0.18), inset 0 10px 12px rgba(255,255,255,0.65);
+  }
+  body.aero #play[aria-pressed="true"] { background: radial-gradient(circle at 32% 28%, #ffffff, #b6f38c 50%, #5ec86a 82%); }
+  body.aero .track {
+    background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(190,236,255,0.35));
+    color: #04314a;
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+  body.aero .track[aria-selected="true"] {
+    background: linear-gradient(180deg, #e7ffb4, #8ee15e);
+    color: #163016;
+    border-color: rgba(255,255,255,0.9);
+  }
+  body.aero .row { color: #0a4a60; }
+  body.aero .groups button {
+    background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(190,236,255,0.35));
+    color: #04314a;
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+  body.aero .groups button[aria-selected="true"] {
+    background: linear-gradient(180deg, #e7ffb4, #8ee15e);
+    color: #163016;
+  }
+  body.aero .sleep button {
+    background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(190,236,255,0.3));
+    color: #04314a;
+    border: 1px solid rgba(255,255,255,0.75);
+  }
+  body.aero .sleep button[aria-selected="true"] {
+    background: linear-gradient(180deg, #c8f48a, #7edc5a);
+    color: #163016;
+  }
+  body.aero input[type=range] { accent-color: #3ec8e0; }
+  @media (max-width: 640px) {
+    #play { width: 72px; height: 72px; font-size: 28px; }
+    .track { padding: 10px 12px; }
+    #dock { padding: 14px 12px 12px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="ui">
+  <header>
+    <div class="eyebrow">a brightfield station</div>
+    <h1>BRIGHTFIELD RADIO</h1>
+    <div id="now">Brightfield Victory</div>
+    <div id="hint">Tap play to start the music</div>
+  </header>
+  <div id="dock">
+    <div class="groups" id="groups">
+      <button data-group="classic" aria-selected="true">Classic</button>
+      <button data-group="aero">Aero</button>
+    </div>
+    <div class="toprow">
+      <button id="play" aria-label="Play" aria-pressed="false">▶</button>
+      <div class="tracks" id="tracks"></div>
+    </div>
+    <div id="variant">
+      <button data-var="leaf" aria-selected="true">Leaf</button>
+      <button data-var="star">Star</button>
+    </div>
+    <div class="row">
+      <label>Volume <input id="vol" type="range" min="0" max="100" value="85"></label>
+      <div class="sleep" id="sleep">
+        <span>Sleep</span>
+        <button data-sleep="0" aria-selected="true">Off</button>
+        <button data-sleep="15">15 min</button>
+        <button data-sleep="30">30 min</button>
+        <button data-sleep="60">60 min</button>
+      </div>
+      <div id="sleepleft"></div>
+    </div>
+  </div>
+</div>
+<script src="src/planners.js"></script>
+<script src="src/engine.js"></script>
+<script src="src/scenes.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>
